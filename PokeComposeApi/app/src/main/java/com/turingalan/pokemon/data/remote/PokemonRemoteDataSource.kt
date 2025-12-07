@@ -112,6 +112,14 @@ class PokemonRemoteDataSource @Inject constructor(
         }
     }
 
+    override suspend fun delete(pokemon: Pokemon) {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun update(pokemon: Pokemon) {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun isError() {
         TODO("Not yet implemented")
     }

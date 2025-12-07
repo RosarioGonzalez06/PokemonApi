@@ -22,9 +22,8 @@ class PokemonLocalDataSource @Inject constructor(
         val mutex = Mutex()
         pokemonList.forEach { pokemon ->
             //Convierte tu Pokémon de modelo de app a entidad de DB
-            val entity = pokemon.toEntity()
             withContext(Dispatchers.IO) {
-                pokemonDao.insert(entity)
+                pokemonDao.insert(pokemon.toEntity())
             }
         }
     }
@@ -56,5 +55,17 @@ class PokemonLocalDataSource @Inject constructor(
 
     override suspend fun isError() {
         TODO("Not yet implemented")
+    }
+
+    override  suspend fun delete(pokemon: Pokemon){
+        withContext(Dispatchers.IO) {
+            pokemonDao.delete(pokemon.toEntity())
+        }
+    }
+
+    override  suspend fun update(pokemon: Pokemon){
+        withContext(Dispatchers.IO) {
+            pokemonDao.update(pokemon.toEntity())
+        }
     }
 }

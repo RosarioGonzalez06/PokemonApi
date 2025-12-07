@@ -23,5 +23,7 @@ interface PokemonDataSource {
     //Remoto → /pokemon/{id}
     //Local → pokemonDao.findById(id)
     suspend fun readOne(id: Long): Result<Pokemon>
+    suspend fun delete(pokemon: Pokemon)
+    suspend fun update(pokemon: Pokemon)
     suspend fun isError()
 }

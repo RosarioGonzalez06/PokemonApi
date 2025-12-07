@@ -25,6 +25,9 @@ fun Pokemon.toEntity(): PokemonEntity {
     )
 }
 
+//para convertir la lista a modelo de base de datos
+fun List<Pokemon>.toEntity():List<PokemonEntity> = this.map(Pokemon::toEntity)
+
 //Model → cómo se usa en la app, más amigable para la UI
 fun PokemonEntity.toModel(): Pokemon {
     return Pokemon(

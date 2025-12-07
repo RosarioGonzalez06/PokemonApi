@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 
@@ -16,6 +17,13 @@ interface PokemonDao {
     //Si ya existe un Pokémon con el mismo ID, se sustituye.(onConflict)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(pokemon: PokemonEntity)
+
+    //insertar lista de pokemon
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insert(pokemonList: List<PokemonEntity>)
+
+    @Update
+    suspend fun update(pokemon: PokemonEntity)
     @Delete
     suspend fun delete(pokemon: PokemonEntity): Int
     @Query("SELECT * FROM pokemon")

@@ -14,4 +14,6 @@ interface PokemonRepository {
     //Room emite un nuevo valor →
     //La UI se actualiza automáticamente (sin tocar nada)
     fun observe(): Flow<Result<List<Pokemon>>>
+    suspend fun delete(pokemon: Pokemon)
+    suspend fun update(pokemon: Pokemon)
 }
