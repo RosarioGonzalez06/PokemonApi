@@ -23,6 +23,7 @@ class PokemonRemoteDataSource @Inject constructor(
     private val api: PokemonApi,
     private val scope: CoroutineScope
 ): PokemonDataSource {
+    //en remoto no se puede añadir nada a API
     override suspend fun addAll(pokemonList: List<Pokemon>) {
         TODO("Not yet implemented")
     }
@@ -112,11 +113,11 @@ class PokemonRemoteDataSource @Inject constructor(
         }
     }
 
-    override suspend fun delete(pokemon: Pokemon) {
+    override suspend fun delete(pokemon: Pokemon):Result<Int> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun update(pokemon: Pokemon) {
+    override suspend fun update(pokemon: Pokemon):Result<Int> {
         TODO("Not yet implemented")
     }
 

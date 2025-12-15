@@ -23,11 +23,14 @@ class PokemonRepositoryImpl @Inject constructor(
     override suspend fun readAll(): Result<List<Pokemon>> {
         return remoteDataSource.readAll()
     }
-    override suspend fun delete(pokemon: Pokemon) {
-        localDataSource.delete(pokemon)
+    override suspend fun delete(pokemon: Pokemon):Result<Int> {
+        return localDataSource.delete(pokemon)
     }
-    override suspend fun update(pokemon: Pokemon) {
-        localDataSource.update(pokemon)
+    override suspend fun update(pokemon: Pokemon):Result<Int> {
+        return localDataSource.update(pokemon)
+    }
+    override suspend fun addAll(pokemonList: List<Pokemon>) {
+        localDataSource.addAll(pokemonList)
     }
 
     //La pantalla recibe actualizaciones AUTOMÁTICAS sin usar LiveData 🔥

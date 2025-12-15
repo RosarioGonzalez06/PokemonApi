@@ -17,7 +17,7 @@ class PokemonLocalDataSource @Inject constructor(
     private val pokemonDao: PokemonDao
 ): PokemonDataSource {
 
-    //añadir pokemon a la BD
+    //añadir pokemons a la BD
     override suspend fun addAll(pokemonList: List<Pokemon>) {
         val mutex = Mutex()
         pokemonList.forEach { pokemon ->
@@ -27,6 +27,16 @@ class PokemonLocalDataSource @Inject constructor(
             }
         }
     }
+    //añadir uno
+    //override suspend fun addOne(pokemon: Pokemon): Result<Long> {
+    //    val id = pokemonDao.insert(pokemon.toEntity())
+    //
+    //    return if (id != -1L) {
+    //        Result.success(id)
+    //    } else {
+    //        Result.failure(Exception("Error inserting pokemon"))
+    //    }
+    //}
 
     //Si la lista de Pokémon cambia, esta función lo notificará automáticamente.
     override fun observe(): Flow<Result<List<Pokemon>>> {
@@ -47,7 +57,7 @@ class PokemonLocalDataSource @Inject constructor(
     //Busca un Pokémon específico por su id
     override suspend fun readOne(id: Long): Result<Pokemon> {
         val entity = pokemonDao.readPokemonById(id)
-        return if (entity==null)
+        return if (entity == null)
             Result.failure(PokemonNotFoundException())
         else
             Result.success(entity.toModel())
@@ -57,15 +67,35 @@ class PokemonLocalDataSource @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override  suspend fun delete(pokemon: Pokemon){
-        withContext(Dispatchers.IO) {
-            pokemonDao.delete(pokemon.toEntity())
+    override suspend fun delete(pokemon: Pokemon): Result<Int> {
+        val pokemonEntity = pokemon.toEntity()
+        val rowsDeleted = pokemonDao.delete(pokemonEntity)
+
+        return if (rowsDeleted > 0) {
+            Result.success(rowsDeleted)
+        } else {
+            Result.failure(PokemonNotFoundException())
         }
     }
 
-    override  suspend fun update(pokemon: Pokemon){
-        withContext(Dispatchers.IO) {
-            pokemonDao.update(pokemon.toEntity())
+    override suspend fun update(pokemon: Pokemon): Result<Int> {
+        val pokemonEntity = pokemon.toEntity()
+        val rowsUpdated = pokemonDao.update(pokemonEntity)
+
+        return if (rowsUpdated > 0) {
+            Result.success(rowsUpdated)
+        } else {
+            Result.failure(PokemonNotFoundException())
         }
     }
+    //eliminar todos
+    //override suspend fun deleteAll(): Result<Int> {
+    //        val pokemonesDeleted = pokemonDao.deleteAll()
+    //        return if(pokemonesDeleted > 0){
+    //            Result.success(pokemonesDeleted)
+    //
+    //        }else{
+    //            Result.failure(PokemonNotFoundException())
+    //        }
+    //    }
 }
